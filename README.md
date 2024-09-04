@@ -36,5 +36,5 @@ This is an eCommerce API built with Node.js, Express, and MongoDB. It includes u
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/your-username/your-repository.git
+  (https://github.com/17387vishal/ecommerce-api.git)
    cd your-repository
