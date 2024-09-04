@@ -129,4 +129,4 @@ PORT=5000
 
 5. **connect the cloud data base to the mongoDBcompass **
    click on the new connection
-   and copy this adderss mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0 and paste.
+   and copy this adderss "mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" and paste
