@@ -1,19 +1,40 @@
-# eCommerce Backend API
+# eCommerce API
 
-## Overview
+This is an eCommerce API built with Node.js, Express, and MongoDB. It includes user authentication, product management, and basic CRUD operations.
 
-This is a backend API for a simple eCommerce system built with ExpressJS and MongoDB. The API handles user authentication with JWT tokens, manages products, and supports CRUD operations.
+## Table of Contents
+
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Setup Instructions](#setup-instructions)
+- [Postman API Testing](#postman-api-testing)
+- [Common Issues](#common-issues)
+- [Contributing](#contributing)
 
 ## Features
 
-- User registration and login with JWT-based authentication.
-- Create, Read, Update, and Delete operations for products.
-- Protect routes with JWT tokens.
+- **User Registration and Authentication**
+  - Register new users
+  - Login with existing users
+  - JWT authentication
 
-## Installation
+- **Product Management**
+  - Create new products
+  - Read all products
+  - Read a product by ID
+  - Update product details
+  - Delete a product
 
-1. Clone the repository:
+## Prerequisites
+
+- Node.js (v14 or higher)
+- MongoDB (local or cloud)
+- Postman (for API testing)
+
+## Setup Instructions
+
+1. **Clone the Repository**
+
    ```bash
-   git clone <repository-url>
-   cd ecommerce-backend
-   ```
+   git clone https://github.com/your-username/your-repository.git
+   cd your-repository
