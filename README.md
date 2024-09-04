@@ -41,90 +41,93 @@ This is an eCommerce API built with Node.js, Express, and MongoDB. It includes u
    cd your-repository
    ```
 
-2.**setup environment .env**
-MONGO_URI=mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-JWT_SECRET=secret1234
+2. **setup environment .env**
+   MONGO_URI=mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+   JWT_SECRET=secret1234
 
-PORT=5000 3.**start server**
-npm start 4.**postman api test**
-Postman API Testing
-You can use Postman to test the following API endpoints:
+PORT=5000
 
-User Endpoints
-Register a New User
+3. **start server**
+   npm start
 
-Method: POST
-Endpoint: /api/auth/register
-Body (JSON):
-json
-Copy code
-{
-"username": "testuser",
-"email": "test@example.com",
-"password": "password123"
-}
-Login User
+4. **postman api test**
+   Postman API Testing
+   You can use Postman to test the following API endpoints:
 
-Method: POST
-Endpoint: /api/auth/login
-Body (JSON):
-json
-Copy code
-{
-"email": "test@example.com",
-"password": "password123"
-}
-Response: { "token": "your_jwt_token_here" }
-Product Endpoints
-Create a New Product
+   User Endpoints
+   Register a New User
 
-Method: POST
-Endpoint: /api/products
-Headers:
-Authorization: Bearer <your_jwt_token>
-Body (JSON):
-json
-Copy code
-{
-"name": "Product Name",
-"description": "Product Description",
-"price": 100,
-"category": "Category Name"
-}
-Get All Products
+   Method: POST
+   Endpoint: /api/auth/register
+   Body (JSON):
+   json
+   Copy code
+   {
+   "username": "testuser",
+   "email": "test@example.com",
+   "password": "password123"
+   }
+   Login User
 
-Method: GET
-Endpoint: /api/products
-Headers:
-Authorization: Bearer <your_jwt_token>
-Get a Product by ID
+   Method: POST
+   Endpoint: /api/auth/login
+   Body (JSON):
+   json
 
-Method: GET
-Endpoint: /api/products/:id
-Headers:
-Authorization: Bearer <your_jwt_token>
-Update a Product
+   {
+   "email": "test@example.com",
+   "password": "password123"
+   }
+   Response: { "token": "your_jwt_token_here" }
+   Product Endpoints
+   Create a New Product
 
-Method: PUT
-Endpoint: /api/products/:id
-Headers:
-Authorization: Bearer <your_jwt_token>
-Body (JSON):
-json
-Copy code
-{
-"name": "Updated Product Name",
-"description": "Updated Product Description",
-"price": 150,
-"category": "Updated Category Name"
-}
-Delete a Product
+   Method: POST
+   Endpoint: /api/products
+   Headers:
+   Authorization: Bearer <your_jwt_token>
+   Body (JSON):
+   json
+   {
+   "name": "Product Name",
+   "description": "Product Description",
+   "price": 100,
+   "category": "Category Name"
+   }
+   Get All Products
 
-Method: DELETE
-Endpoint: /api/products/:id
-Headers:
-Authorization: Bearer <your_jwt_token>
+   Method: GET
+   Endpoint: /api/products
+   Headers:
+   Authorization: Bearer <your_jwt_token>
+   Get a Product by ID
 
-5.**connect the cloud data base to the mongoDBcompass **
-click on the new connection
-and copy this adderss mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0 and paste.
+   Method: GET
+   Endpoint: /api/products/:id
+   Headers:
+   Authorization: Bearer <your_jwt_token>
+   Update a Product
+
+   Method: PUT
+   Endpoint: /api/products/:id
+   Headers:
+   Authorization: Bearer <your_jwt_token>
+   Body (JSON):
+   json
+   {
+   "name": "Updated Product Name",
+   "description": "Updated Product Description",
+   "price": 150,
+   "category": "Updated Category Name"
+   }
+   Delete a Product
+
+   Method: DELETE
+   Endpoint: /api/products/:id
+   Headers:
+   Authorization: Bearer <your_jwt_token>
+
+5. **connect the cloud data base to the mongoDBcompass **
+   click on the new connection
+   and copy this adderss mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0 and paste.
+   //use mongodbCompass
