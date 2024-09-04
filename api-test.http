@@ -1,0 +1,54 @@
+### User Registration
+
+//this is the rest api to test the api requests
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123"
+};
+
+### User Login
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "abc@gmail.com",
+  "password": "1234"
+}
+
+### Create Product
+POST http://localhost:5000/api/products
+Content-Type: application/json
+Authorization: Bearer YOUR_JWT_TOKEN
+
+{
+  "name": "Product1",
+  "description": "A new product",
+  "price": 19.99,
+  "category": "Electronics"
+}
+
+### Get All Products
+GET http://localhost:5000/api/products
+
+### Get Product by ID
+GET http://localhost:5000/api/products/66d7600b6ab3463362ca225f
+
+### Update Product
+PUT http://localhost:5000/api/products/66d7600b6ab3463362ca225f
+Content-Type: application/json
+Authorization: 66d75f3e6ab3463362ca224e
+
+{
+  "name": "Updated Product",
+  "description": "Updated description",
+  "price": 29.99,
+  "category": "Updated Category"
+}
+
+### Delete Product
+DELETE http://localhost:5000/api/products/66d7600b6ab3463362ca225f
+Authorization: 66d75f3e6ab3463362ca224e
