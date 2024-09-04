@@ -34,16 +34,26 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // Find user by email
     const user = await User.findOne({ email });
-    if (user && password === user.password) {
-      // Compare the plain password
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "24h",
-      });
-      res.json({ token });
-    } else {
-      res.status(401).json({ error: "Invalid credentials" });
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
     }
+
+    // Match entered password with hashed password in the database
+    const isMatch = await user.matchPassword(password);
+
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // Generate a JWT token for the user
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "24h",
+    });
+
+    // Return the token to the client
+    res.json({ token });
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server error");
