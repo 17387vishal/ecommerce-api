@@ -45,92 +45,70 @@ secure and reliable data exchange.
 ### Step 1: Clone the Repository
 
 ```bash
- git clone https://github.com/17387vishal/ecommerce-api.git
- cd ecommerce-api
+git clone:https://github.com/17387vishal/ecommerce-api.git
+cd your-repository
 ```
 
-### Step 2: Set up Environment Variables
+2. **setup environment .env**
+   MONGO_URI=mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+   JWT_SECRET=secret1234
 
-In this step, you need to create a .env file in the root directory of your project and add
-the following environment variables:
+PORT=5000
 
-### Step 3: Start the Server
+3. **start server**
+   npm start
 
-```bash
-npm start
-```
+4. **postman api test**
+   Postman API Testing
+   You can use Postman to test the following API endpoints:
 
-### Step 4: Connect to MongoDB Compass
+   User Endpoints
+   Register a New User
 
-Open MongoDB Compass and click on "New Connection".
-Copy the following address and paste it into the connection string field:
+   Method: POST
+   Endpoint: /api/auth/register
+   Body (JSON):
+   json
+   Copy code
+   {
+   "username": "testuser",
+   "email": "test@example.com",
+   "password": "password123"
+   }
+   Login User
 
-```bash
-mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-```
+   Method: POST
+   Endpoint: /api/auth/login
+   Body (JSON):
+   json
 
-## API Endpoints
+   {
+   "email": "test@example.com",
+   "password": "password123"
+   }
+   Response: { "token": "your_jwt_token_here" }
+   Product Endpoints
+   Create a New Product
 
-### User Endpoints
+   Method: POST
+   Endpoint: /api/products
+   Headers:
+   Authorization: Bearer <your_jwt_token>
+   Body (JSON):
+   json
+   {
+   "name": "Product Name",
+   "description": "Product Description",
+   "price": 100,
+   "category": "Category Name"
+   }
+   Get All Products
 
-- **Register a New User**
-  - Method: POST
-  - Endpoint: `/api/auth/register`
-  - Body (JSON):
+- Method: GET
+- Endpoint: `/api/products`
+- Headers:
 
-```bash
-{
-  "username": "testuser",
-  "email": "test@example.com",
-  "password": "password123"
-}
-```
-
-- **Login User**
-  - Method: POST
-  - Endpoint: `/api/auth/login`
-  - Body (JSON):
-
-```bash
-{
-  "email": "test@example.com",
-  "password": "password123"
-}
-```
-
-Response:
-
-```bash
-{
-  "token": "your_jwt_token_here"
-}
-```
-
-## Product Endpoints
-
-- **Create a New Product**
-  - Method: POST
-  - Endpoint: `/api/products`
-  - Headers:
-    - Authorization: Bearer `<your_jwt_token>`
-  - Body (JSON):
-
-```bash
-{
-  "name": "Product Name",
-  "description": "Product Description",
-  "price": 100,
-  "category": "Category Name"
-}
-```
-
-- **Get All Products**
-
-  - Method: GET
-  - Endpoint: `/api/products`
-  - Headers:
-
-    - Authorization: Bearer `<your_jwt_token>`
+  - Authorization: Bearer `<your_jwt_token>`
 
 - **Get a Product by ID**
 
@@ -161,19 +139,16 @@ Response:
 
 - **Delete a Product**
 
-  - Method: DELETE
-  - Endpoint: `/api/products/:id`
-  - Headers:
+  Method: DELETE
+  Endpoint: /api/products/:id
+  Headers:
+  Authorization: Bearer <your_jwt_token>
 
-    - Authorization: Bearer `<your_jwt_token>`
-
-# Postman API Testing
-
-You can use Postman to test the API endpoints. Make sure to replace `<your_jwt_token>`
-with the actual token received during login.
-
-# Common Issues
-
-- Make sure to install all dependencies using `npm install`.
-- Check the MongoDB connection string and credentials.
-- Verify the JWT secret key.
+5. **connect the cloud data base to the mongoDBcompass **
+   click on the new connection
+   <<<<<<< HEAD
+   and copy this adderss mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0 and paste.
+   //use mongodbCompass
+   =======
+   and copy this adderss "mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" and paste
+   > > > > > > > cf888ee14b2fbe40cbbace2e2ceaab50ac59b3fb
