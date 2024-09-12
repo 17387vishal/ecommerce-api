@@ -26,7 +26,19 @@ exports.createProduct = async (req, res) => {
 
 exports.getProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate("user", "username email");
+    const sortBy = req.query.sort_by;
+    const order = req.query.order === "desc" ? -1 : 1;
+    let sortOptions = { _id: 1 };
+    if (sortBy) {
+      sortOptions = sortBy.split(",").reduce((acc, field) => {
+        acc[field.trim()] = order;
+        return acc;
+      }, {});
+    }
+    const products = await Product.find()
+      .sort(sortOptions)
+      .populate("user", "username email");
+
     res.json(products);
   } catch (error) {
     res.status(400).json({ error: error.message });
