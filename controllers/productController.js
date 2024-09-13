@@ -113,20 +113,33 @@ exports.deleteProduct = async (req, res) => {
 };
 
 exports.searchProducts = async (req, res) => {
-  const searchTerm = req.query.searchTerm;
+  //const searchTerm = req.query.searchTerm;
+  const { searchTerm, id } = req.query;
 
-  if (!searchTerm) {
-    return res.status(400).json({ error: "Search term is required" });
+  if (!searchTerm && !id) {
+    return res
+      .status(400)
+      .json({ error: "Either searchTerm or id is required" });
   }
 
   try {
-    const query = {
-      $or: [
-        { name: { $regex: searchTerm, $options: "i" } },
-        // { description: { $regex: searchTerm, $options: "i" } },
-        // { category: { $regex: searchTerm, $options: "i" } },
-      ],
-    };
+    let query = {};
+
+    if (id) {
+      // Search by ID
+      if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+        return res.status(400).json({ error: "Invalid product ID format" });
+      }
+      query = { _id: id };
+    } else if (searchTerm) {
+      query = {
+        $or: [
+          { name: { $regex: searchTerm, $options: "i" } },
+          // { description: { $regex: searchTerm, $options: "i" } },
+          // { category: { $regex: searchTerm, $options: "i" } },
+        ],
+      };
+    }
 
     const products = await Product.find(query).exec();
     if (products.length === 0) {

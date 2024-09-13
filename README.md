@@ -168,11 +168,53 @@ Response:
   Headers:
   Authorization: Bearer <your_jwt_token>
 
+- **Search Products**
+
+  - URL: `/api/products/search`
+  - Method: `GET`
+
+#### Query Parameters
+
+- `searchTerm`: The term to search for in product names, descriptions, or categories.
+
+#### Response
+
+- **Success:**
+
+  ```json
+  [
+    {
+      "name": "Matching Product Name",
+      "description": "Matching Product Description",
+      "price": 100,
+      "category": "Matching Product Category",
+      "user": "user_id",
+      "_id": "product_id",
+      "__v": 0
+    }
+    // More matching products...
+  ]
+  ```
+
+#### Errors
+
+- **400 Bad Request:** If `searchTerm` is not provided.
+
+  ```json
+  {
+    "error": "Search term is required"
+  }
+  ```
+
+- **404 Not Found:** If no products match the search term.
+
+  ```json
+  {
+    "message": "No products found"
+  }
+  ```
+
 5. **connect the cloud data base to the mongoDBcompass **
    click on the new connection
-   <<<<<<< HEAD
-   and copy this adderss mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0 and paste.
+
    //use mongodbCompass
-   =======
-   and copy this adderss "mongodb+srv://user1:1234@cluster0.3bgi9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" and paste
-   > > > > > > > cf888ee14b2fbe40cbbace2e2ceaab50ac59b3fb
