@@ -62,17 +62,22 @@ exports.getProductById = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate("user");
 
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
 
+    console.log("Product user:", product.user ? product.user.username : "");
+    console.log("Current user:", req.user ? req.user.username : "");
+
+    /*
     if (product.user.toString() !== req.user._id.toString()) {
       return res
         .status(401)
         .json({ error: "Not authorized to update this product" });
     }
+    */
 
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
@@ -99,10 +104,35 @@ exports.deleteProduct = async (req, res) => {
         .json({ error: "Not authorized to delete this product" });
     }
 
-    // Use the correct method to delete
     await Product.findByIdAndDelete(req.params.id);
 
     res.json({ message: "Product removed" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+exports.searchProducts = async (req, res) => {
+  const searchTerm = req.query.searchTerm;
+
+  if (!searchTerm) {
+    return res.status(400).json({ error: "Search term is required" });
+  }
+
+  try {
+    const query = {
+      $or: [
+        { name: { $regex: searchTerm, $options: "i" } },
+        // { description: { $regex: searchTerm, $options: "i" } },
+        // { category: { $regex: searchTerm, $options: "i" } },
+      ],
+    };
+
+    const products = await Product.find(query).exec();
+    if (products.length === 0) {
+      return res.status(404).json({ message: "No products found" });
+    }
+    res.json(products);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
