@@ -6,7 +6,6 @@ dotenv.config();
 exports.protect = async (req, res, next) => {
   let token;
 
-  // Check if there's a token in the header
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -23,9 +22,12 @@ exports.protect = async (req, res, next) => {
 
       next();
     } catch (error) {
-      res.status(401).json({ error: "Not authorized" });
+      console.error(error);
+      res.status(401).json({ error: "Not authorized, token failed" });
     }
-  } else {
-    res.status(401).json({ error: "No token, authorization denied" });
+  }
+
+  if (!token) {
+    res.status(401).json({ error: "Not authorized, no token" });
   }
 };

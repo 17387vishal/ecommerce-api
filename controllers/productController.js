@@ -98,12 +98,12 @@ exports.deleteProduct = async (req, res) => {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    if (product.user.toString() !== req.user._id.toString()) {
+    /* if (product.user.toString() !== req.user._id.toString()) {
       return res
         .status(401)
         .json({ error: "Not authorized to delete this product" });
     }
-
+*/
     await Product.findByIdAndDelete(req.params.id);
 
     res.json({ message: "Product removed" });
@@ -114,12 +114,12 @@ exports.deleteProduct = async (req, res) => {
 
 exports.searchProducts = async (req, res) => {
   //const searchTerm = req.query.searchTerm;
-  const { searchTerm, id } = req.query;
+  const { searchTerm, id, price } = req.query;
 
-  if (!searchTerm && !id) {
+  if (!searchTerm && !id && !price) {
     return res
       .status(400)
-      .json({ error: "Either searchTerm or id is required" });
+      .json({ error: "Either searchTerm, id, or price is required" });
   }
 
   try {
@@ -135,16 +135,42 @@ exports.searchProducts = async (req, res) => {
       query = {
         $or: [
           { name: { $regex: searchTerm, $options: "i" } },
-          // { description: { $regex: searchTerm, $options: "i" } },
-          // { category: { $regex: searchTerm, $options: "i" } },
+          { description: { $regex: searchTerm, $options: "i" } },
+          { category: { $regex: searchTerm, $options: "i" } },
         ],
       };
     }
-
+    if (price) {
+      if (isNaN(price)) {
+        return res.status(400).json({ error: "Invalid Price" });
+      }
+      query = { ...query, price: Number(price) };
+    }
     const products = await Product.find(query).exec();
     if (products.length === 0) {
       return res.status(404).json({ message: "No products found" });
     }
+    res.json(products);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// Fetch products created by the logged-in user
+exports.getUserProducts = async (req, res) => {
+  try {
+    // Ensure the user is authenticated
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    // Fetch products created by the logged-in user
+    const products = await Product.find({ user: req.user._id }).populate(
+      "user",
+      "username email"
+    );
+
+    // Return the products
     res.json(products);
   } catch (error) {
     res.status(400).json({ error: error.message });
