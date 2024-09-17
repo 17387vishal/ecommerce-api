@@ -1,3 +1,4 @@
+const User = require("../models/User");
 const Product = require("../models/Product");
 
 exports.createProduct = async (req, res) => {
@@ -174,5 +175,32 @@ exports.getUserProducts = async (req, res) => {
     res.json(products);
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+};
+
+// Function to get the current logged-in user's information
+exports.getCurrentUser = async (req, res) => {
+  try {
+    // Get user from request (this requires user authentication middleware to be applied)
+    const user = req.user;
+
+    if (!user) {
+      return res
+        .status(401)
+        .json({ error: "Unauthorized, user not logged in" });
+    }
+
+    // Fetch user details
+    const userDetails = await User.findById(user._id).select("-password"); // Exclude password
+
+    // Optionally, fetch products created by the logged-in user
+    //const userProducts = await Product.find({ user: user._id });
+
+    res.json({
+      user: userDetails,
+      // products: userProducts,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch user information" });
   }
 };
