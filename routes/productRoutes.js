@@ -1,7 +1,7 @@
 const express = require("express");
 const productController = require("../controllers/productController");
-const { protect } = require("../middleware/authMiddleware"); // Use destructuring to get the protect function
-
+const { protect } = require("../middleware/authMiddleware"); // Middleware for authentication
+const { pagination } = require("../middleware/pagination"); // Middleware for pagination
 const router = express.Router();
 
 // Destructure the product controller methods
@@ -13,24 +13,31 @@ const {
   deleteProduct,
   searchProducts,
   getUserProducts,
-  getCurrentUser, // Make sure to import this as well
+  getCurrentUser,
 } = productController;
 
 // Routes
-router.route("/").post(protect, createProduct).get(getProducts);
+
+// Create a product (protected) and get all products with pagination
+router
+  .route("/")
+  .post(protect, createProduct) // Create a new product (protected)
+  .get(pagination, getProducts); // Get all products with pagination
 
 // Route to get the current logged-in user's information and their products
-router.get("/me", protect, getCurrentUser); // Use 'protect' middleware, not 'authMiddleware' object
+router.get("/me", protect, getCurrentUser); // Get current logged-in user info
 
-// Add route for fetching the logged-in user's products
-router.get("/user-products", protect, getUserProducts);
+// Fetch the logged-in user's products with pagination
+router.get("/user-products", protect, pagination, getUserProducts); // Get user's own products
 
-router.route("/search").get(searchProducts);
+// Search products with pagination
+router.get("/search", pagination, searchProducts); // Search products
 
+// Get, update, or delete a product by ID (with authentication for protected routes)
 router
   .route("/:id")
-  .get(getProductById)
-  .put(protect, updateProduct)
-  .delete(protect, deleteProduct);
+  .get(getProductById) // Get product by ID
+  .put(protect, updateProduct) // Update product (protected)
+  .delete(protect, deleteProduct); // Delete product (protected)
 
 module.exports = router;
