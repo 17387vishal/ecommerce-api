@@ -1,4 +1,3 @@
-// server.js
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
@@ -27,7 +26,23 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something broke!");
 });
 
+// Start the server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+// Graceful shutdown for server
+const shutdown = () => {
+  server.close(() => {
+    console.log("Server closed");
+    process.exit(0);
+  });
+};
+
+// Handle process termination signals
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
+
+// Export the app and server
+module.exports = { app, server };

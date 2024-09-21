@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 
+// Load environment variables based on NODE_ENV
+if (process.env.NODE_ENV === "test") {
+  require("dotenv").config({ path: ".env.test" });
+} else {
+  require("dotenv").config();
+}
+
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {

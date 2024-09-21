@@ -14,6 +14,7 @@ const {
   searchProducts,
   getUserProducts,
   getCurrentUser,
+  getUserProductsByid,
 } = productController;
 
 // Routes
@@ -32,6 +33,8 @@ router.get("/user-products", protect, pagination, getUserProducts); // Get user'
 
 // Search products with pagination
 router.get("/search", pagination, searchProducts); // Search products
+
+router.get("/users/:id", getUserProductsByid);
 
 // Get, update, or delete a product by ID (with authentication for protected routes)
 router

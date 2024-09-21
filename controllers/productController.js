@@ -5,7 +5,6 @@ exports.createProduct = async (req, res) => {
   const { name, description, price, category } = req.body;
 
   try {
-    // Debugging statement
     console.log("User:", req.user);
 
     if (!req.user) {
@@ -171,28 +170,23 @@ exports.searchProducts = async (req, res) => {
   }
 };
 
-// Fetch products created by the logged-in user with pagination
 exports.getUserProducts = async (req, res) => {
   try {
-    const { page, limit, skip } = req.pagination; // Get pagination data from middleware
+    const { page, limit, skip } = req.pagination;
 
-    // Ensure the user is authenticated
     if (!req.user) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    // Fetch products created by the logged-in user with pagination
     const products = await Product.find({ user: req.user._id })
       .skip(skip)
-      .limit(limit)
-      .populate("user", "username email");
+      .limit(limit);
+    // .populate("user", "username email");
 
-    // Get total count for pagination info
     const totalUserProducts = await Product.countDocuments({
       user: req.user._id,
     });
 
-    // Return the paginated products
     res.json({
       products,
       pagination: {
@@ -207,10 +201,8 @@ exports.getUserProducts = async (req, res) => {
   }
 };
 
-// Function to get the current logged-in user's information
 exports.getCurrentUser = async (req, res) => {
   try {
-    // Get user from request (this requires user authentication middleware to be applied)
     const user = req.user;
 
     if (!user) {
@@ -219,17 +211,49 @@ exports.getCurrentUser = async (req, res) => {
         .json({ error: "Unauthorized, user not logged in" });
     }
 
-    // Fetch user details
-    const userDetails = await User.findById(user._id).select("-password"); // Exclude password
-
+    const userDetails = await User.findById(user._id).select("-password");
     // Optionally, fetch products created by the logged-in user
-    const userProducts = await Product.find({ user: user._id });
+    // const userProducts = await Product.find({ user: user._id });
 
     res.json({
       user: userDetails,
-      products: userProducts,
+      // products: userProducts,
     });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch user information" });
+  }
+};
+
+exports.getUserProductsByid = async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query; // Get pagination data from query parameters
+    const skip = (page - 1) * limit;
+
+    // Ensure the user is authenticated
+    /* if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+*/
+
+    const userId = req.params.id;
+    const products = await Product.find({ user: userId })
+      .skip(skip)
+      .limit(Number(limit));
+
+    const totalUserProducts = await Product.countDocuments({
+      user: userId,
+    });
+
+    res.json({
+      products,
+      pagination: {
+        currentPage: Number(page),
+        totalPages: Math.ceil(totalUserProducts / limit),
+        totalProducts: totalUserProducts,
+        limit: Number(limit),
+      },
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
