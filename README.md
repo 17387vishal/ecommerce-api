@@ -59,6 +59,7 @@ the following environment variables:
 ### Step 3: Start the Server
 
 ```bash
+npm install
 npm start
 ```
 
